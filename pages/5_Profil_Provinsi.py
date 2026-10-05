@@ -1,19 +1,3 @@
-"""
-HALAMAN 5 - PROFIL PROVINSI
-
-CATATAN PERUBAHAN
-- [v5] BUG PANAH: nama variabel dulu menumpuk di titik pusat karena teks anotasi berpanah menempel di titik
-       asal. Sekarang panah digambar tanpa teks, dan nama variabel ditaruh di UJUNG panah dengan garis
-       penuntun tipis serta penghindar tabrakan antar label (susun_label).
-- [v5] Judul sumbu x dan y DIKEMBALIKAN seperti semula; garis sumbu tipis (#DDD) seperti semula.
-- [v5] Papua Pegunungan disorot lingkaran terbuka berwarna merah-oranye + label bernama.
-- [v5] Legenda memakai lebar entri tetap (entrywidth) supaya teks tidak terpotong lagi.
-- [v5] Teks kelompok diambil dari konten.py. Kalimat kelompok Rentan: "TPT terendah" kini "di antara ketiga
-       kelompok" (Bali, bukan Papua Pegunungan, yang TPT-nya terendah secara nasional: 1,49% vs 1,68%).
-- [v6.1] Cincin Papua Pegunungan kini merah-oranye (tadi ungu); kotak label tidak lagi lebih sempit dari teks
-        (akar masalah: font Plotly, lihat utils.gaya_plot); judul sumbu 11 px + margin lebih longgar.
-- [v6] Teks interpretasi dipindah ke kolom kanan agar halaman muat satu layar.
-"""
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
@@ -45,7 +29,6 @@ pca = PCA().fit(Z)
 skor = pca.transform(Z)
 km = KMeans(n_clusters=3, n_init=10, random_state=0).fit(skor[:, :2])
 
-# Nama kelompok ditentukan dari ciri (rata-rata informalitas), bukan dari nomor label acak KMeans
 rata_informal = df.groupby(km.labels_)["informal"].mean().sort_values()
 NAMA_KELOMPOK = {rata_informal.index[0]: "Kelompok Urban-Formal",
                  rata_informal.index[1]: "Kelompok Menengah",
@@ -61,7 +44,6 @@ fig = px.scatter(df, x="PC1", y="PC2", color="kelompok", hover_name="provinsi", 
 fig.update_traces(hovertemplate="<b>%{customdata[0]}</b><extra></extra>",
                   marker=dict(size=10, line=dict(width=0.8, color="white")))
 
-# ---------- Panah loading ----------
 L = pca.components_[:2].T
 skala = np.abs(skor[:, :2]).max() / np.abs(L).max() * 0.75
 ujung_x, ujung_y = L[:, 0] * skala, L[:, 1] * skala
@@ -71,16 +53,13 @@ xmax = max(skor[:, 0].max(), ujung_x.max()) + 1.2
 ymin = min(skor[:, 1].min(), ujung_y.min()) - 0.9
 ymax = max(skor[:, 1].max(), ujung_y.max()) + 0.9
 
-# 1) garis panah saja, TANPA teks (teks pada anotasi berpanah menempel di titik asal/pusat)
 for i in range(len(VAR)):
     fig.add_annotation(x=ujung_x[i], y=ujung_y[i], ax=0, ay=0, xref="x", yref="y", axref="x", ayref="y",
                        showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=1.5, arrowcolor="#555", text="")
 
-# 2) label ditaruh di ujung panah, digeser (piksel) agar tidak saling menimpa
 TINGGI_FIG = T(440)
 px_per_y = (TINGGI_FIG * 0.78) / (ymax - ymin)
-JARAK_MIN = 22                                     # jarak vertikal minimum antar label (piksel)
-
+JARAK_MIN = 22                                     
 
 def susun_label(indeks):
     """Kembalikan {indeks: offset_y_piksel}. Label satu sisi (kiri/kanan) diurut dari atas lalu didorong
@@ -112,11 +91,11 @@ for i, v in enumerate(VAR):
         xanchor="left" if ke_kanan else "right", yanchor="middle",
         bgcolor="rgba(255,255,255,0.88)", bordercolor="#D5DDE5", borderwidth=0.5, borderpad=3)
 
-# ---------- Sorot Papua Pegunungan dengan lingkaran ----------
+# ---------- Highlight Papua Pegunungan ----------
 pp = df[df.provinsi == "Papua Pegunungan"].iloc[0]
 fig.add_trace(go.Scatter(
     x=[pp.PC1], y=[pp.PC2], mode="markers", hoverinfo="skip", showlegend=False,
-    marker=dict(symbol="circle-open", size=30, color=VERMILION, line=dict(color=VERMILION, width=3))))   # [v6.1] cincin tadi ungu
+    marker=dict(symbol="circle-open", size=30, color=VERMILION, line=dict(color=VERMILION, width=3))))  
 fig.add_annotation(x=pp.PC1, y=pp.PC2, ax=-70, ay=48, axref="pixel", ayref="pixel", showarrow=True,
                    arrowhead=0, arrowwidth=1.5, arrowcolor=VERMILION, text="<b>Papua Pegunungan</b>",
                    font=dict(size=13, color=VERMILION), xanchor="right", yanchor="top",
@@ -125,12 +104,12 @@ fig.add_annotation(x=pp.PC1, y=pp.PC2, ax=-70, ay=48, axref="pixel", ayref="pixe
 fig.add_hline(y=0, line_width=0.5, line_color="#DDD")
 fig.add_vline(x=0, line_width=0.5, line_color="#DDD")
 
-gaya_plot(fig, TINGGI_FIG, margin=dict(l=52, r=12, t=44, b=56))   # [v6.1] ruang untuk judul sumbu
+gaya_plot(fig, TINGGI_FIG, margin=dict(l=52, r=12, t=44, b=56))   
 fig.update_layout(
     dragmode="select",
     legend=dict(orientation="h", y=1.1, x=0, title=None, font=dict(size=12),
                 entrywidthmode="pixels", entrywidth=200),
-    # Judul sumbu: dikembalikan seperti semula (deskriptif, tanpa angka varians)
+   
     xaxis=dict(title=dict(text="← Mapan & IPM Tinggi    |    Rentan & Informal →", font=dict(size=11), standoff=8),
                showticklabels=False,
                range=[xmin, xmax], showgrid=False, zeroline=False),
