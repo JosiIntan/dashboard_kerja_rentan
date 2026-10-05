@@ -1,6 +1,6 @@
 # PENGATURAN TAMPILAN
 # True  = tampilan baru (latar berlapis, kartu bergaris warna, dock navigasi melayang, hero halaman 1).
-# False = tampilan polos tahap 1 (hanya rapi, tanpa hiasan). Berguna untuk membandingkan.
+# False = tampilan polos tahap 1 (hanya rapi, tanpa hiasan)
 UI_BARU = True
 
 # Judul dan subjudul tiap halaman
@@ -50,18 +50,18 @@ P4_INTRO = (
     "mewakili lima dimensi tersebut, dipilih agar tidak saling tumpang tindih secara definisi."
 )
 
-P5_MENENGAH = ("yang beranggotakan {n} provinsi memiliki ciri utama berupa angka-angka ketenagakerjaan "
+P5_MENENGAH = ("yang beranggotakan {n} provinsi yaitu provinsi yang angka-angka ketenagakerjaan "
                "mendekati rata-rata nasional di hampir semua indikator dan tidak menonjol ke arah "
                "rentan maupun mapan.")
 P5_URBAN = ("yang beranggotakan {n} provinsi (termasuk DKI Jakarta, Jawa Barat, Banten) memiliki ciri utama berupa "
             "rata-rata upah yang tinggi dan persentase informalitas yang rendah, tetapi memiliki angka TPT tertinggi" 
             "dibandingkan ketiga kelompok.")
-P5_RENTAN = ("yang beranggotakan {n} provinsi (NTT, Papua Tengah, Papua Pegunungan) memiliki ciri utama berupa angka TPAK "
-             "yang tinggi dan TPT yang rendah dibandingkan ketiga kelompok, tetapi memiliki persentase informalitas dan proporsi "
-             "jam kerja singkat yang jauh di atas kelompok lainnya, serta IPM terendah.")
-P5_PENCILAN = ("merupakan pencilan paling ekstrem dimana jarak dari pusat paling besar dan terlihat juga dari angka"
-               "partisipasi kerja tertinggi nasional, namun searah dengan indikator informalitas dan jam kerja "
-               "pendek, berlawanan arah dengan IPM.")
+P5_RENTAN = ("yang beranggotakan {n} provinsi (NTT, Papua Tengah, Papua Pegunungan) ditandai oleh TPAK yang relatif tinggi "
+             "dan TPT yang relatif rendah dibandingkan kelompok lainnya. Namun, kelompok ini memiliki persentase informalitas" 
+             "dan proporsi pekerja dengan jam kerja kurang dari 35 jam yang jauh lebih tinggi, serta capaian IPM yang paling rendah.")
+P5_PENCILAN = ("merupakan pencilan paling ekstrem dengan jarak terjauh dari pusat kelompok. Provinsi ini memiliki TPAK tertinggi"
+               "secara nasional, tetapi karakteristik tersebut berjalan beriringan dengan tingginya formalitas dan proporsi kerja dengan jam" 
+               "kerja pendek, serta capaian IPM yang paling rendah.")
 
 P6_INTRO = ("Papua Pegunungan adalah pencilan paling ekstrem di antara 38 provinsi. "
             "Sekarang kita perbesar ke tingkat kabupaten/kota.")
