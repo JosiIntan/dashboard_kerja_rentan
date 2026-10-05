@@ -1,5 +1,5 @@
 import numpy as np
-import plotly.express as px
+from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import streamlit as st
 
@@ -19,24 +19,44 @@ LABEL = {"tpak": "TPAK", "tpt": "TPT", "upah_juta": "Upah", "jam_49plus": "Jam â
          "jam_kurang35": "Jam <35", "informal": "Informal", "gender_wage_gap": "Gap Upah",
          "gap_tpak": "Gap TPAK", "ipm": "IPM"}
 
+N = len(VAR)
 
-def nama_sumbu(huruf, i):
-    """Variabel ke-i pada Splom memakai sumbu x/y (i=0) atau x2/y2, x3/y3, dst."""
-    return huruf if i == 0 else f"{huruf}{i + 1}"
+def sumbu(huruf, n):
+    """Nama sumbu subplot ke-n pada make_subplots (dihitung dari 1, baris demi baris): x, x2, x3, ..."""
+    return huruf if n == 1 else f"{huruf}{n}"
 
+def no(r, c):
+    """Nomor subplot untuk baris r, kolom c (keduanya 1..N)."""
+    return (r - 1) * N + c
 
-fig = px.scatter_matrix(df, dimensions=VAR, hover_name="provinsi", labels={v: "\u00a0" for v in VAR})
-fig.update_traces(diagonal_visible=False, showupperhalf=False,
-                  marker=dict(size=5, opacity=0.38, color="#9FB1C3"),
-                  hovertemplate="<b>%{hovertext}</b><extra></extra>", selector=dict(type="splom"))
+fig = make_subplots(rows=N, cols=N, horizontal_spacing=0.012, vertical_spacing=0.012)
+fig.update_xaxes(showgrid=False, showticklabels=False, showline=False, zeroline=False)
+fig.update_yaxes(showgrid=False, showticklabels=False, showline=False, zeroline=False)
 
-for i, v in enumerate(VAR):                       
-    fig.add_annotation(xref=f"{nama_sumbu('x', i)} domain", yref=f"{nama_sumbu('y', i)} domain", x=0.5, y=0.5,
-                       text="<b>" + "<br>".join(LABEL[v].split(" ")) + "</b>", showarrow=False,
+for r_ in range(2, N + 1):
+    for c_ in range(1, r_):
+        vx, vy = VAR[c_ - 1], VAR[r_ - 1]
+        fig.add_trace(go.Scatter(
+            x=df[vx], y=df[vy], mode="markers", showlegend=False,
+            marker=dict(size=5, color="#9FB1C3", opacity=0.45),          
+            hovertext=df.provinsi,
+            hovertemplate="<b>%{hovertext}</b><br>" + LABEL[vx] + ": %{x:,.2f}<br>" + LABEL[vy] + ": %{y:,.2f}<extra></extra>"),
+            row=r_, col=c_)
+        
+        fig.update_xaxes(showgrid=True, gridcolor="#EDF1F5", nticks=3, tickfont=dict(size=8), tickangle=0,
+                         showticklabels=(r_ == N), row=r_, col=c_)
+        fig.update_yaxes(showgrid=True, gridcolor="#EDF1F5", nticks=3, tickfont=dict(size=8),
+                         showticklabels=(c_ == 1), row=r_, col=c_)
+
+for i, v in enumerate(VAR, start=1):                 
+    n = no(i, i)
+    fig.add_annotation(xref=f"{sumbu('x', n)} domain", yref=f"{sumbu('y', n)} domain", x=0.5, y=0.5,
+                       showarrow=False, text="<b>" + "<br>".join(LABEL[v].split(" ")) + "</b>",
                        font=dict(size=11, color="#14213D"))
 
-kol, bar = VAR.index("jam_kurang35"), VAR.index("informal")
-xs, ys = nama_sumbu("x", kol), nama_sumbu("y", bar)
+
+c_h, r_h = VAR.index("jam_kurang35") + 1, VAR.index("informal") + 1
+xs, ys = sumbu("x", no(r_h, c_h)), sumbu("y", no(r_h, c_h))
 r = df["jam_kurang35"].corr(df["informal"])
 
 fig.add_shape(type="rect", xref=f"{xs} domain", yref=f"{ys} domain", x0=0, x1=1, y0=0, y1=1,
@@ -46,27 +66,27 @@ fig.add_trace(go.Scatter(x=df.jam_kurang35, y=df.informal, xaxis=xs, yaxis=ys, m
                          hovertext=df.provinsi, hovertemplate="<b>%{hovertext}</b><extra></extra>",
                          showlegend=False))
 
-gaya_plot(fig, T(470), margin=dict(l=42, r=10, t=34, b=36))
-fig.update_xaxes(tickfont=dict(size=8), nticks=3, tickangle=0, showgrid=True, gridcolor="#EDF1F5")
-fig.update_yaxes(tickfont=dict(size=8), nticks=3, showgrid=True, gridcolor="#EDF1F5")
+gaya_plot(fig, T(470), margin=dict(l=44, r=10, t=34, b=40))
 
+K = N * N + 1
+xi, yi = sumbu("x", K), sumbu("y", K)
 koef = np.polyfit(df.jam_kurang35, df.informal, 1)
 gx = np.linspace(df.jam_kurang35.min(), df.jam_kurang35.max(), 20)
-fig.add_trace(go.Scatter(x=df.jam_kurang35, y=df.informal, xaxis="x10", yaxis="y10", mode="markers",
+fig.add_trace(go.Scatter(x=df.jam_kurang35, y=df.informal, xaxis=xi, yaxis=yi, mode="markers",
                          marker=dict(size=10, color=VERMILION, opacity=0.9, line=dict(color="white", width=1.2)),
                          hovertext=df.provinsi, hovertemplate="<b>%{hovertext}</b><extra></extra>",
                          showlegend=False))
-fig.add_trace(go.Scatter(x=gx, y=koef[0] * gx + koef[1], xaxis="x10", yaxis="y10", mode="lines",
+fig.add_trace(go.Scatter(x=gx, y=koef[0] * gx + koef[1], xaxis=xi, yaxis=yi, mode="lines",
                          line=dict(color="#7A3300", width=2, dash="dot"), hoverinfo="skip", showlegend=False))
 gaya_inset = dict(showline=True, linecolor=VERMILION, linewidth=2, mirror=True, zeroline=False,
-                  gridcolor="#F6E4D8", tickfont=dict(size=11))
-fig.update_layout(
-    xaxis10=dict(domain=[0.52, 1.0], anchor="y10", title=dict(text="Jam <35 (%)", font=dict(size=12)), **gaya_inset),
-    yaxis10=dict(domain=[0.60, 0.95], anchor="x10", title=dict(text="Informal (%)", font=dict(size=12)), **gaya_inset),
-)
-fig.add_annotation(xref="paper", yref="paper", x=0.52, y=0.99, xanchor="left", yanchor="bottom", showarrow=False,
+                  gridcolor="#F6E4D8", tickfont=dict(size=11), showticklabels=True)
+fig.update_layout(**{
+    f"xaxis{K}": dict(domain=[0.52, 1.0], anchor=yi, title=dict(text="Jam <35 (%)", font=dict(size=12)), **gaya_inset),
+    f"yaxis{K}": dict(domain=[0.64, 0.97], anchor=xi, title=dict(text="Informal (%)", font=dict(size=12)), **gaya_inset),
+})
+fig.add_annotation(xref="paper", yref="paper", x=0.52, y=0.985, xanchor="left", yanchor="bottom", showarrow=False,
                    text="<b>Diperbesar: Jam &lt;35 Ã— Informal</b>", font=dict(size=13, color=VERMILION))
-fig.add_annotation(xref="x10 domain", yref="y10 domain", x=0.04, y=0.96, xanchor="left", yanchor="top",
+fig.add_annotation(xref=f"{xi} domain", yref=f"{yi} domain", x=0.04, y=0.96, xanchor="left", yanchor="top",
                    showarrow=False, text=f"<b>r = {fmt_id(r)}</b>", font=dict(size=16, color="#7A3300"),
                    bgcolor="rgba(255,255,255,0.88)", borderpad=3)
 
@@ -81,8 +101,6 @@ with kiri:
             f"(r = {fmt_id(r)}): provinsi dengan banyak pekerja informal hampir selalu juga punya banyak "
             f"pekerja dengan jam kerja kurang dari 35 jam seminggu. Hubungan ini dibahas lanjut di halaman "
             f"Profil Provinsi.</div>", unsafe_allow_html=True)
-        st.caption("Segitiga atas disembunyikan karena matriks simetris. Tiap titik adalah satu provinsi "
-                   "(arahkan kursor untuk melihat namanya). Upah dalam juta rupiah.")
         sumber_link(*SUMBER["p4"])
 with kanan:
     with kartu("matriks"):
