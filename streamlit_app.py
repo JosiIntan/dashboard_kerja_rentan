@@ -1,12 +1,3 @@
-"""
-PINTU MASUK APLIKASI (router). Jalankan dengan:  streamlit run app.py
-
-CATATAN PERUBAHAN
-- [v5] Memakai st.navigation supaya tab pertama bernama "Pendahuluan", bukan "app".
-- [v6] Sidebar (tersembunyi secara default, buka lewat panah kecil di kiri atas) berisi pilihan
-       "Ukuran grafik": Kompak / Normal / Besar. Pilihan ini mengalikan tinggi semua grafik (lihat utils.T)
-       supaya tiap halaman muat satu layar di laptop kecil maupun layar besar/proyektor.
-"""
 import streamlit as st
 
 from utils import UKURAN, URUTAN_HALAMAN
