@@ -1,20 +1,3 @@
-"""
-HALAMAN 6 - PAPUA PEGUNUNGAN
-
-CATATAN PERUBAHAN
-- [v5] Kartu detail kabupaten/kota muncul DI BAWAH kartu Profil Provinsi saat sebuah wilayah dipilih
-       (nilai pilihan dibaca dari st.session_state["fokus_wilayah"] sebelum kolom kiri digambar).
-- [v5] Peta: gelembung proporsional = jumlah absolut penduduk bekerja (semakin besar, semakin banyak),
-       lengkap dengan legenda ukuran. Luas gelembung sebanding dengan jumlah (ukuran = akar kuadrat).
-- [v5] Peta "Semua kabupaten/kota": zoom dihitung dari batas wilayah dengan margin aman supaya 8 kabupaten
-       masuk semua, dan nama seluruh kabupaten ditampilkan (titik label = centroid poligon terbesar).
-- [v5] Wilayah yang dipilih diberi garis tepi tebal merah-oranye. Colorbar dipindah ke dalam peta (horizontal)
-       supaya lebar peta tidak terpotong lagi.
-- [v5] Tooltip: angka TPT memakai koma (sebelumnya "2.92%", kini "2,92%").
-- [v5] Rata-rata upah tampil "Rp 3,9 juta".
-- [v6.1] Peta diperpendek, colorbar diringkas, nama kabupaten 2 baris; kartu tidak lagi memotong isi (utils).
-- [v6] Profil provinsi memakai ubin 3 kolom yang ringkas agar halaman muat satu layar.
-"""
 import json
 import math
 from pathlib import Path
@@ -32,9 +15,9 @@ terapkan_gaya()
 judul_halaman(JUDUL["p6"], P6_INTRO)
 
 SEMUA = "Semua kabupaten/kota"
-fokus = st.session_state.get("fokus_wilayah", SEMUA)     # dibaca dulu, widget-nya ada di kolom kanan
+fokus = st.session_state.get("fokus_wilayah", SEMUA)     
 
-# ------------------------------------------------------------------ data
+
 prov = muat("provinsi_indikator.csv")
 row = prov[prov.provinsi == "Papua Pegunungan"].iloc[0].copy()
 row["gender_wage_gap"] = (row.upah_l - row.upah_p) / row.upah_l * 100
@@ -51,7 +34,7 @@ with open(geo_path, encoding="utf-8") as f:
     gj = json.load(f)
 
 
-# ------------------------------------------------------------------ geometri
+
 def semua_titik(koordinat, hasil):
     if isinstance(koordinat[0], (int, float)):
         hasil.append(koordinat)
@@ -91,8 +74,8 @@ for ft in gj["features"]:
 lon_min, lon_max = min(p[0] for p in titik_all), max(p[0] for p in titik_all)
 lat_min, lat_max = min(p[1] for p in titik_all), max(p[1] for p in titik_all)
 
-TINGGI_PETA = T(310)      # [v6.1] diperpendek supaya halaman muat satu layar
-# Zoom yang pas agar SEMUA kabupaten tampak: perkiraan kanvas 520 px lebar, margin aman 0,35 tingkat zoom
+TINGGI_PETA = T(310)      
+
 zoom_semua = min(math.log2(520 * 360 / (512 * (lon_max - lon_min))),
                  math.log2(TINGGI_PETA * 360 / (512 * (lat_max - lat_min)))) - 0.35
 pusat_semua = ((lat_min + lat_max) / 2, (lon_min + lon_max) / 2)
@@ -190,14 +173,14 @@ with kanan:
         # Nama seluruh kabupaten/kota
         fig.add_trace(go.Scattermap(
             lat=[pusat[n][0] for n in pp.kabkota], lon=[pusat[n][1] for n in pp.kabkota],
-            mode="text", text=[n.replace(" ", "\n") for n in pp.kabkota], textfont=dict(size=10, color=NAVY),   # [v6.1] 2 baris
+            mode="text", text=[n.replace(" ", "\n") for n in pp.kabkota], textfont=dict(size=10, color=NAVY),   
             hoverinfo="skip", showlegend=False))
 
         gaya_plot(fig, TINGGI_PETA, margin=dict(l=0, r=0, t=0, b=0))
         fig.update_layout(coloraxis_colorbar=dict(
             title=dict(text="TPAK (%)", side="right"), orientation="h", thickness=8, len=0.3,
             x=0.02, xanchor="left", y=0.03, yanchor="bottom", bgcolor="rgba(255,255,255,0.7)",
-            tickfont=dict(size=9)))   # [v6.1] colorbar lebih ringkas
+            tickfont=dict(size=9)))  
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
         # Legenda ukuran gelembung
