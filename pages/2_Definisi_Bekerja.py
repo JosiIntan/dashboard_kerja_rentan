@@ -1,12 +1,3 @@
-"""
-HALAMAN 2 - DEFINISI BEKERJA
-
-CATATAN PERUBAHAN
-- [v5] Legenda akar/level 1/level 2 dihapus. Keterangan bawah diambil dari konten.py (P2_CAPTION).
-- [v5] Kotak diagram dilebarkan (0.14 per huruf) supaya teks tidak terpotong lagi.
-- [v6.1] Diagram jadi SVG responsif (teks ikut mengecil bersama kotak).
-- [v6] Diagram diperbesar karena halaman ini punya ruang kosong; judul memakai judul_halaman().
-"""
 import streamlit as st
 
 from konten import JUDUL, P2_CAPTION
@@ -30,7 +21,6 @@ with kiri:
             unsafe_allow_html=True)
 
 with kanan:
-    # [v6.1] Diagram digambar sebagai SVG: kotak + huruf mengecil BERSAMA di layar kecil, jadi tidak pernah bertabrakan.
     pohon = {
         "Penduduk": ["Usia Kerja", "Bukan Usia Kerja"],
         "Usia Kerja": ["Angkatan Kerja", "Bukan Angkatan Kerja"],
@@ -39,7 +29,7 @@ with kanan:
         "Bukan Angkatan Kerja": ["Sekolah", "Mengurus RT", "Lainnya"],
         "Bekerja": [], "Pengangguran": [], "Sekolah": [], "Mengurus RT": [], "Lainnya": [],
     }
-    FS, JARAK, TINGGI_LEVEL, TINGGI_KOTAK = 0.24, 0.22, 1.5, 0.74      # semua dalam satuan viewBox
+    FS, JARAK, TINGGI_LEVEL, TINGGI_KOTAK = 0.24, 0.22, 1.5, 0.74      
 
     def baris_label(teks):
         """Label panjang dipecah jadi 2 baris di spasi yang paling dekat dengan tengah."""
