@@ -1,13 +1,3 @@
-"""
-HALAMAN 3 - PENDUDUK BEKERJA
-
-CATATAN PERUBAHAN
-- [v5] Circle packing: HANYA lingkaran terkecil (daun) yang diberi teks. Legenda akar/level dihapus.
-- [v6.1] Circle packing digambar sebagai SVG responsif: huruf ikut mengecil bersama lingkaran di layar kecil.
-- [v6.1] ICICLE DIGANTI komponen interaktif (komponen.py): klik kotak = langsung zoom-in, breadcrumb besar yang
-         bisa diklik di atas grafik, angka jiwa + persen di sebelah KIRI breadcrumb, teks kotak dipecah per kata
-         sehingga "Bukan Usia Kerja" tidak lagi terpotong.
-"""
 import circlify
 import streamlit as st
 import streamlit.components.v1 as components
