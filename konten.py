@@ -60,15 +60,16 @@ P4_INTRO = (
 )
 
 # Paragraf pertama disalin dari screenshot Anda; dua paragraf lainnya masih versi lama (tidak terlihat di screenshot).
-P5_MENENGAH = ("yang beranggotakan {n} provinsi memiliki ciri berupa angka-angka ketenagakerjaan "
-               "mendekati rata-rata nasional di hampir semua indikator, tidak menonjol ke arah "
+P5_MENENGAH = ("yang beranggotakan {n} provinsi memiliki ciri utama berupa angka-angka ketenagakerjaan "
+               "mendekati rata-rata nasional di hampir semua indikator dan tidak menonjol ke arah "
                "rentan maupun mapan.")
-P5_URBAN = ("yang beranggotakan {n} provinsi (termasuk DKI Jakarta, Jawa Barat, Banten) — ciri utamanya "
-            "upah tertinggi dan informalitas terendah, namun TPT justru paling tinggi di antara ketiga kelompok.")
-P5_RENTAN = ("yang beranggotakan {n} provinsi (NTT, Papua Tengah, Papua Pegunungan) — ciri utamanya TPAK "
-             "tertinggi dan TPT terendah di antara ketiga kelompok, namun diiringi informalitas dan proporsi "
-             "jam kerja singkat yang jauh di atas kelompok lain, serta IPM terendah.")
-P5_PENCILAN = ("merupakan pencilan paling ekstrem (jarak ke pusat kelompok terbesar di seluruh data) — "
+P5_URBAN = ("yang beranggotakan {n} provinsi (termasuk DKI Jakarta, Jawa Barat, Banten) memiliki ciri utama berupa "
+            "rata-rata upah yang tinggi dan persentase informalitas yang rendah, tetapi memiliki angka TPT tertinggi" 
+            "dibandingkan ketiga kelompok.")
+P5_RENTAN = ("yang beranggotakan {n} provinsi (NTT, Papua Tengah, Papua Pegunungan) memiliki ciri utama berupa angka TPAK "
+             "yang tinggi dan TPT yang rendah dibandingkan ketiga kelompok, tetapi memiliki persentase informalitas dan proporsi "
+             "jam kerja singkat yang jauh di atas kelompok lainnya, serta IPM terendah.")
+P5_PENCILAN = ("merupakan pencilan paling ekstrem dimana jarak dari pusat paling besar dan terlihat juga dari angka"
                "partisipasi kerja tertinggi nasional, namun searah dengan indikator informalitas dan jam kerja "
                "pendek, berlawanan arah dengan IPM.")
 
