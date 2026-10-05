@@ -1,20 +1,3 @@
-"""
-utils.py: fungsi bantu yang dipakai di SEMUA halaman.
-
-CATATAN PERUBAHAN (v4 -> v6.1)
-- [v6.1] Font Plotly diberi tanda kutip (akar masalah kotak label tidak pas), kartu tidak lagi memotong isi,
-        kolom bertumpuk di layar < 900 px, teks SVG, poles UI. Lihat juga komponen.py (icicle interaktif).
-- [v5] sumber_link(): judul tautan ditulis lengkap di konten.py (tanpa awalan "Publikasi BPS" otomatis).
-- [v5] Ikon tautan yang muncul saat judul di-hover disembunyikan (CSS stHeaderActionElements).
-- [v5] legenda_level() dihapus: keterangan akar/level 1/level 2 tidak dipakai lagi.
-- [v5] Gaya kartu kabupaten (badge, bar perbandingan) dan ubin angka 3 kolom untuk halaman 6.
-- [v6] judul_halaman(): judul + subjudul dengan garis tiga warna (palet data) di sisinya.
-- [v6] T(): tinggi grafik mengikuti pilihan "Ukuran grafik" di sidebar (Kompak/Normal/Besar), agar tiap halaman
-       bisa dimuat dalam satu layar. Ubah angka dasarnya di tiap halaman bila perlu.
-- [v6] CSS_BARU (aktif bila UI_BARU=True di konten.py): latar berlapis, kartu dengan garis atas tiga warna dan
-       bayangan berlapis, dock navigasi melayang, tombol utama bergradasi, animasi masuk SATU kali.
-- [v6] Responsif: kolom bertumpuk di layar kecil, navigasi bawah tidak pernah turun baris.
-"""
 from pathlib import Path
 
 import pandas as pd
@@ -44,7 +27,7 @@ URUTAN_HALAMAN = [
     ("pages/7_Kesimpulan.py", "Kesimpulan"),
 ]
 
-# Pilihan ukuran grafik (sidebar, dibuat di app.py). 1.0 dirancang untuk layar laptop ~ 720 px tinggi.
+# Pilihan ukuran grafik (sidebar, dibuat di streamlit_app.py). dirancang untuk layar laptop ~ 720 px tinggi.
 UKURAN = {"Kompak": 0.85, "Normal": 1.0, "Besar": 1.2}
 
 
@@ -75,14 +58,11 @@ def gaya_plot(fig, tinggi: int, margin=None):
         template="plotly_white", paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
         height=tinggi, separators=",.",
         margin=margin or dict(l=10, r=10, t=10, b=10),
-        font=dict(family='"Source Sans 3", "Segoe UI", sans-serif', color="#1A1A1A"),   # [v6.1] tanda kutip wajib
+        font=dict(family='"Source Sans 3", "Segoe UI", sans-serif', color="#1A1A1A"),  
     )
     return fig
 
 
-# =====================================================================================
-# CSS DASAR (selalu aktif)
-# =====================================================================================
 CSS_DASAR = """
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600;700&display=swap');
 
@@ -175,7 +155,7 @@ div[data-testid="stVerticalBlock"] > div { gap: 0.5rem; }
 .titik i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #CBD5E0; margin: 0 4px; }
 .titik i.aktif { width: 22px; border-radius: 6px; background: #0072B2; }
 
-/* ---------- [v6.1] Layar menengah/kecil: kolom bertumpuk lebih awal agar grafik tidak sempit ---------- */
+/* ---------- Layar menengah/kecil: kolom bertumpuk lebih awal agar grafik tidak sempit ---------- */
 @media (max-width: 900px) {
     .teks-rata { text-align: left; }
     [data-testid="stHorizontalBlock"] { flex-wrap: wrap !important; }
@@ -185,7 +165,7 @@ div[data-testid="stVerticalBlock"] > div { gap: 0.5rem; }
 }
 [class*="st-key-kartu"] [data-testid="stMarkdownContainer"] p:last-child { margin-bottom: 0; }
 
-/* [v6.1] Teks pada SVG (diagram halaman 2, circle packing halaman 3) dan hover lingkaran */
+/* Teks pada SVG (diagram halaman 2, circle packing halaman 3) dan hover lingkaran */
 .svg-teks { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; }
 .cp-svg circle:hover { stroke: #14213D !important; stroke-width: 0.014 !important; cursor: pointer; }
 
@@ -201,9 +181,6 @@ div[data-testid="stVerticalBlock"] > div { gap: 0.5rem; }
 }
 """
 
-# =====================================================================================
-# CSS BARU (aktif bila UI_BARU = True): tidak flat, berlapis, ada kedalaman
-# =====================================================================================
 CSS_BARU = """
 /* Latar: tiga cahaya lembut dengan warna palet data (biru, oranye, hijau) */
 .stApp {
@@ -279,7 +256,7 @@ div[data-baseweb="select"] > div { border-radius: 12px; background: #FFFFFF; bor
     box-shadow: 0 14px 34px -12px rgba(20,33,61,0.38); padding: 0.4rem 0.9rem;
 }
 
-/* ---------- [v6.1] Poles tambahan ---------- */
+/* ---------- Poles tambahan ---------- */
 ::selection { background: rgba(0,114,178,0.22); }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb { background: #C5D3E0; border-radius: 8px; border: 2px solid #F2F6FA; }
