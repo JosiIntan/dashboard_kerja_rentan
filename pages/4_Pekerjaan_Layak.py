@@ -15,19 +15,23 @@ df["gap_tpak"] = df.tpak_l - df.tpak_p
 df["upah_juta"] = df.upah_total / 1e6
 
 VAR = ["tpak", "tpt", "upah_juta", "jam_49plus", "jam_kurang35", "informal", "gender_wage_gap", "gap_tpak", "ipm"]
-LABEL = {"tpak": "TPAK", "tpt": "TPT", "upah_juta": "Upah", "jam_49plus": "Jam ≥49",
+LABEL = {"tpak": "TPAK", "tpt": "TPT", "upah_juta": "Upah (juta)", "jam_49plus": "Jam ≥49",
          "jam_kurang35": "Jam <35", "informal": "Informal", "gender_wage_gap": "Gap Upah",
          "gap_tpak": "Gap TPAK", "ipm": "IPM"}
 
+
 N = len(VAR)
+
 
 def sumbu(huruf, n):
     """Nama sumbu subplot ke-n pada make_subplots (dihitung dari 1, baris demi baris): x, x2, x3, ..."""
     return huruf if n == 1 else f"{huruf}{n}"
 
+
 def no(r, c):
     """Nomor subplot untuk baris r, kolom c (keduanya 1..N)."""
     return (r - 1) * N + c
+
 
 fig = make_subplots(rows=N, cols=N, horizontal_spacing=0.012, vertical_spacing=0.012)
 fig.update_xaxes(showgrid=False, showticklabels=False, showline=False, zeroline=False)
@@ -42,19 +46,27 @@ for r_ in range(2, N + 1):
             hovertext=df.provinsi,
             hovertemplate="<b>%{hovertext}</b><br>" + LABEL[vx] + ": %{x:,.2f}<br>" + LABEL[vy] + ": %{y:,.2f}<extra></extra>"),
             row=r_, col=c_)
-        
         fig.update_xaxes(showgrid=True, gridcolor="#EDF1F5", nticks=3, tickfont=dict(size=8), tickangle=0,
                          showticklabels=(r_ == N), row=r_, col=c_)
         fig.update_yaxes(showgrid=True, gridcolor="#EDF1F5", nticks=3, tickfont=dict(size=8),
                          showticklabels=(c_ == 1), row=r_, col=c_)
 
-for i, v in enumerate(VAR, start=1):                 
-    n = no(i, i)
-    fig.add_annotation(xref=f"{sumbu('x', n)} domain", yref=f"{sumbu('y', n)} domain", x=0.5, y=0.5,
-                       showarrow=False, text="<b>" + "<br>".join(LABEL[v].split(" ")) + "</b>",
+
+def pusat_sel(n):
+    """Titik tengah sel subplot ke-n dalam koordinat paper, dibaca dari domain yang sudah dihitung make_subplots.
+    (Tidak memakai 'xN domain' karena sumbu sel kosong tidak selalu dikenali Plotly -> label menumpuk.)"""
+    xa = fig.layout["xaxis" if n == 1 else f"xaxis{n}"].domain
+    ya = fig.layout["yaxis" if n == 1 else f"yaxis{n}"].domain
+    return (xa[0] + xa[1]) / 2, (ya[0] + ya[1]) / 2
+
+
+for i, v in enumerate(VAR, start=1):                 # nama variabel horizontal di sel diagonal (i,i)
+    cx, cy = pusat_sel(no(i, i))
+    fig.add_annotation(xref="paper", yref="paper", x=cx, y=cy, showarrow=False,
+                       text="<b>" + "<br>".join(LABEL[v].split(" ")) + "</b>",
                        font=dict(size=11, color="#14213D"))
 
-
+# --- Sel yang disorot: Jam<35 (kolom) x Informal (baris) ---
 c_h, r_h = VAR.index("jam_kurang35") + 1, VAR.index("informal") + 1
 xs, ys = sumbu("x", no(r_h, c_h)), sumbu("y", no(r_h, c_h))
 r = df["jam_kurang35"].corr(df["informal"])
@@ -89,6 +101,7 @@ fig.add_annotation(xref="paper", yref="paper", x=0.52, y=0.985, xanchor="left", 
 fig.add_annotation(xref=f"{xi} domain", yref=f"{yi} domain", x=0.04, y=0.96, xanchor="left", yanchor="top",
                    showarrow=False, text=f"<b>r = {fmt_id(r)}</b>", font=dict(size=16, color="#7A3300"),
                    bgcolor="rgba(255,255,255,0.88)", borderpad=3)
+
 
 kiri, kanan = st.columns([1, 2.15])
 with kiri:
