@@ -31,8 +31,6 @@ with kartu("keterbatasan"):
                 unsafe_allow_html=True)
 
 baris = []
-if GITHUB_URL:
-    baris.append(f"Kode dan data: [{GITHUB_URL}]({GITHUB_URL})")
 baris.append(PENULIS)
 st.caption("  \n".join(baris))
 
