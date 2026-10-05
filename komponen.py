@@ -1,15 +1,3 @@
-"""
-komponen.py: komponen HTML/JS mandiri (tanpa pustaka luar) untuk dipasang lewat st.components.v1.html.
-
-icicle_zoom(pohon, tinggi) -> string HTML
-  - Klik kotak  : langsung zoom-in ke cabang itu (animasi 0,5 detik)
-  - Klik kotak paling kiri (kotak yang sedang jadi akar) : zoom-out satu tingkat
-  - Breadcrumb  : jalur besar di atas grafik, tiap bagian bisa diklik untuk kembali ke tingkat itu
-  - Angka       : di sebelah KIRI breadcrumb tampil jumlah jiwa dan persen dari total untuk cabang aktif;
-                  di dalam kotak juga tampil angka ringkas (mis. 146,5 jt)
-  - Responsif   : lebar mengikuti kontainer; teks dipecah per kata agar tidak pernah terpotong
-pohon = {"name":..., "value":..., "children":[...]} (nilai induk = jumlah anak)
-"""
 import json
 
 TEMPLATE = r"""<!doctype html>
