@@ -1,12 +1,3 @@
-"""
-HALAMAN 7 - KESIMPULAN
-
-CATATAN PERUBAHAN
-- [v5] Teks kesimpulan dan keterbatasan diambil dari konten.py (hasil edit Anda). Spasi setelah titik/koma yang
-       hilang di versi Anda ("hidup.Papua", "50%tidak", "Pegunungan,tetapi") sudah dirapikan.
-- [v5] Baris "TODO URL Streamlit" dihapus; baris GitHub hanya tampil bila GITHUB_URL di konten.py diisi.
-- [v6] Kartu "Papua Pegunungan dalam angka" (dihitung dari data) di sisi kanan supaya halaman tidak datar.
-"""
 import streamlit as st
 
 from konten import GITHUB_URL, JUDUL, P7_KESIMPULAN, P7_KETERBATASAN, PENULIS
