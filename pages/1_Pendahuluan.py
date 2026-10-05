@@ -1,11 +1,3 @@
-"""
-HALAMAN 1 - PENDAHULUAN
-
-CATATAN PERUBAHAN
-- [v5] Teks penutup dan sumber diambil dari konten.py (sesuai teks yang Anda edit).
-- [v6] Judul + alur dibungkus "hero" (kartu dengan lingkaran lembut, motif circle packing).
-- [v6] Tinggi grafik memakai T(); halaman dipusatkan vertikal dan dibuat muat satu layar.
-"""
 import plotly.graph_objects as go
 import streamlit as st
 
