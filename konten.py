@@ -22,14 +22,14 @@ SUMBER = {
            "https://www.bps.go.id", "28 September 2026"),
     "p3": ("Tabel Dinamis BPS Penduduk Menurut Jenis Kegiatan di Indonesia Tahun 2021 - 2025",
            "https://www.bps.go.id", "28 September 2026"),
-    "p4": ("Publikasi BPS Indikator Pasar Tenaga Kerja Indonesia Agustus 2025 & Indeks Pembangunan Manusia 2025",
-           "https://www.bps.go.id", "28 September 2026"),
-    "p5": ("Publikasi BPS Keadaan Angkatan Kerja Indonesia Agustus 2025",
-           "https://www.bps.go.id", "28 September 2026"),
-    "p6_prov": ("Publikasi BPS Keadaan Angkatan Kerja Indonesia Agustus 2025",
-                "https://www.bps.go.id", "28 September 2026"),
+    "p4": ("Publikasi BPS Indikator Pasar Tenaga Kerja Indonesia Agustus 2025 & Tabel Dinamis Indeks Pembangunan Manusia di Indonesia 2025",
+           "https://www.bps.go.id/id/publication/2025/12/30/cd78a8ff95fcf228a712e8ac/indikator-pasar-tenaga-kerja-indonesia-agustus-2025.html", "28 September 2026"),
+    "p5": ("Publikasi BPS Indikator Pasar Tenaga Kerja Indonesia Agustus 2025 & Tabel Dinamis Indeks Pembangunan Manusia di Indonesia 2025",
+           "https://www.bps.go.id/id/publication/2025/12/30/cd78a8ff95fcf228a712e8ac/indikator-pasar-tenaga-kerja-indonesia-agustus-2025.html", "28 September 2026"),
+    "p6_prov": ("Publikasi BPS Indikator Pasar Tenaga Kerja Indonesia Agustus 2025",
+                "https://www.bps.go.id/id/publication/2025/12/30/cd78a8ff95fcf228a712e8ac/indikator-pasar-tenaga-kerja-indonesia-agustus-2025.html", "28 September 2026"),
     "p6_kab": ("Publikasi BPS Profil Ketenagakerjaan Papua Pegunungan Tahun 2025",
-               "https://papua-pegunungan.bps.go.id", "28 September 2026"),
+               "https://papua.bps.go.id/id/publication/2026/08/03/c46ce597023ecc71a5a457fc/profil-ketenagakerjaan-provinsi-papua-pegunungan-2025.html", "3 Oktober 2026"),
 }
 
 P1_PENUTUP = ("Indonesia cenderung mengalami penurunan tingkat pengangguran terbuka, "
