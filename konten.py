@@ -1,18 +1,9 @@
-"""
-SEMUA TEKS YANG SERING ANDA EDIT ada di berkas ini.
-Edit teks di sini, bukan di berkas halaman, supaya revisi desain tidak menimpa teks Anda.
-Format sumber: (judul tautan, URL, tanggal akses).
-"""
-
-
-# ---------------------------------------------------------------------------------------
 # PENGATURAN TAMPILAN
-# ---------------------------------------------------------------------------------------
 # True  = tampilan baru (latar berlapis, kartu bergaris warna, dock navigasi melayang, hero halaman 1).
 # False = tampilan polos tahap 1 (hanya rapi, tanpa hiasan). Berguna untuk membandingkan.
 UI_BARU = True
 
-# Judul dan subjudul tiap halaman (subjudul boleh dikosongkan dengan "")
+# Judul dan subjudul tiap halaman
 JUDUL = {
     "p2": "Apa yang Dimaksud “Bekerja”?",
     "p3": "Penduduk Menurut Jenis Kegiatan, Agustus 2021-2025",
@@ -22,8 +13,8 @@ JUDUL = {
     "p7": "Kesimpulan",
 }
 
-# URL repositori GitHub. Isi saat sudah ada; kalau dikosongkan, baris GitHub tidak ditampilkan.
-GITHUB_URL = ""
+# URL repositori GitHub.
+GITHUB_URL = "https://github.com/JosiIntan/dashboard_kerja_rentan.git "
 PENULIS = "-Josi Intan Tri Rizki-"
 
 SUMBER = {
@@ -44,7 +35,7 @@ SUMBER = {
 P1_PENUTUP = ("Indonesia cenderung mengalami penurunan tingkat pengangguran terbuka, "
               "apakah ini sesuatu hal yang baik?")
 
-P2_CAPTION = "Diagram Struktur Klasifikasi Ketenagakerjaan Berdasarkan BPS/ILO."
+P2_CAPTION = "Diagram Struktur Klasifikasi Ketenagakerjaan Berdasarkan BPS."
 
 P3_INTRO = ("Halaman sebelumnya menunjukkan definisi &ldquo;bekerja&rdquo; secara konsep. "
             "Sekarang seberapa besar tiap cabang?")
@@ -59,7 +50,6 @@ P4_INTRO = (
     "mewakili lima dimensi tersebut, dipilih agar tidak saling tumpang tindih secara definisi."
 )
 
-# Paragraf pertama disalin dari screenshot Anda; dua paragraf lainnya masih versi lama (tidak terlihat di screenshot).
 P5_MENENGAH = ("yang beranggotakan {n} provinsi memiliki ciri utama berupa angka-angka ketenagakerjaan "
                "mendekati rata-rata nasional di hampir semua indikator dan tidak menonjol ke arah "
                "rentan maupun mapan.")
