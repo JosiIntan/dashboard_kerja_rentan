@@ -1,14 +1,3 @@
-"""
-HALAMAN 4 - PEKERJAAN LAYAK
-
-CATATAN PERUBAHAN
-- [v5] Satu matriks 9 x 9 segitiga bawah; sel Jam<35 x Informal disorot, titik lain dipudarkan; versi diperbesar sel
-       itu (dengan garis tren dan r) ditaruh di ruang kosong segitiga atas.
-- [v6.1] BUG TUMPUKAN: judul sumbu tiap baris/kolom (diputar) saling menimpa karena terlalu panjang. Sekarang judul
-         sumbu dihilangkan dan NAMA VARIABEL ditaruh horizontal di sel DIAGONAL (yang memang kosong).
-         Angka sumbu diperkecil dan dijarangkan.
-- [v6.1] Keterangan + sumber dipindah ke kartu kiri agar kartu matriks lebih pendek dan halaman muat satu layar.
-"""
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
@@ -36,13 +25,12 @@ def nama_sumbu(huruf, i):
     return huruf if i == 0 else f"{huruf}{i + 1}"
 
 
-# judul sumbu diganti spasi tak-terputus: nama variabel ditulis di diagonal
 fig = px.scatter_matrix(df, dimensions=VAR, hover_name="provinsi", labels={v: "\u00a0" for v in VAR})
 fig.update_traces(diagonal_visible=False, showupperhalf=False,
                   marker=dict(size=5, opacity=0.38, color="#9FB1C3"),
                   hovertemplate="<b>%{hovertext}</b><extra></extra>", selector=dict(type="splom"))
 
-for i, v in enumerate(VAR):                       # nama variabel horizontal di sel diagonal
+for i, v in enumerate(VAR):                       
     fig.add_annotation(xref=f"{nama_sumbu('x', i)} domain", yref=f"{nama_sumbu('y', i)} domain", x=0.5, y=0.5,
                        text="<b>" + "<br>".join(LABEL[v].split(" ")) + "</b>", showarrow=False,
                        font=dict(size=11, color="#14213D"))
@@ -62,7 +50,6 @@ gaya_plot(fig, T(470), margin=dict(l=42, r=10, t=34, b=36))
 fig.update_xaxes(tickfont=dict(size=8), nticks=3, tickangle=0, showgrid=True, gridcolor="#EDF1F5")
 fig.update_yaxes(tickfont=dict(size=8), nticks=3, showgrid=True, gridcolor="#EDF1F5")
 
-# --- Versi diperbesar di ruang kosong kanan-atas (sumbu ke-10, di luar 9 sumbu matriks) ---
 koef = np.polyfit(df.jam_kurang35, df.informal, 1)
 gx = np.linspace(df.jam_kurang35.min(), df.jam_kurang35.max(), 20)
 fig.add_trace(go.Scatter(x=df.jam_kurang35, y=df.informal, xaxis="x10", yaxis="y10", mode="markers",
